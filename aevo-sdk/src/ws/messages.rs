@@ -2,10 +2,18 @@
 // Run `cargo run -p aevo-codegen` to regenerate.
 
 #![allow(clippy::all)]
+use serde::{Deserialize, Serialize};
 
-/// Known Aevo WebSocket channels (regenerated from the docs).
+/// Known Aevo WebSocket channels (base names; some accept parameters).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Channel {
+    BookTicker,
+    Fills,
+    Index,
+    Orderbook100ms,
+    Orders,
+    Ticker500ms,
+    Trades,
     /// Any channel not known at generation time.
     Other(String),
 }
@@ -14,7 +22,138 @@ impl Channel {
     /// The wire name for this channel's base.
     pub fn as_str(&self) -> &str {
         match self {
+            Channel::BookTicker => "book-ticker",
+            Channel::Fills => "fills",
+            Channel::Index => "index",
+            Channel::Orderbook100ms => "orderbook-100ms",
+            Channel::Orders => "orders",
+            Channel::Ticker500ms => "ticker-500ms",
+            Channel::Trades => "trades",
             Channel::Other(s) => s.as_str(),
         }
     }
 }
+
+/// Message payload for the `book-ticker` channel (source: reference/subcribe-book-ticker.md).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BookTickerMessage {
+    pub data: Vec<String>,
+    pub op: String,
+}
+
+/// Message payload for the `fills` channel (source: reference/subcribe-fills.md).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FillsMessage {
+    pub channel: String,
+    pub data: FillsMessageData,
+}
+
+/// Message payload for the `index` channel (source: reference/subcribe-index.md).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct IndexMessage {
+    pub channel: String,
+    pub data: IndexMessageData,
+}
+
+/// Message payload for the `orderbook-100ms` channel (source: reference/subscribe-orderbook-throttled.md).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Orderbook100msMessage {
+    pub channel: String,
+    pub data: Orderbook100msMessageData,
+}
+
+/// Message payload for the `orders` channel (source: reference/subcribe-orders.md).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OrdersMessage {
+    pub channel: String,
+    pub data: OrdersMessageData,
+}
+
+/// Message payload for the `ticker-500ms` channel (source: reference/subscribe-ticker-throttled.md).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Ticker500msMessage {
+    pub data: Vec<String>,
+    pub op: String,
+}
+
+/// Message payload for the `trades` channel (source: reference/subcribe-trades.md).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TradesMessage {
+    pub channel: String,
+    pub data: TradesMessageData,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FillsMessageData {
+    pub fill: FillsMessageDataFill,
+    pub timestamp: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FillsMessageDataFill {
+    pub created_timestamp: String,
+    pub fees: String,
+    pub filled: String,
+    pub instrument_id: String,
+    pub instrument_name: String,
+    pub instrument_type: String,
+    pub liquidity: String,
+    pub order_id: String,
+    pub order_status: String,
+    pub price: String,
+    pub side: String,
+    pub trade_id: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct IndexMessageData {
+    pub price: String,
+    pub timestamp: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Orderbook100msMessageData {
+    pub asks: Vec<Vec<String>>,
+    pub bids: Vec<Vec<String>>,
+    pub checksum: String,
+    pub instrument_id: String,
+    pub instrument_name: String,
+    pub instrument_type: String,
+    pub last_updated: String,
+    pub r#type: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OrdersMessageData {
+    pub orders: Vec<OrdersMessageDataOrdersItem>,
+    pub timestamp: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct OrdersMessageDataOrdersItem {
+    pub account: String,
+    pub amount: String,
+    pub created_timestamp: i64,
+    pub filled: String,
+    pub instrument_id: String,
+    pub instrument_name: String,
+    pub instrument_type: String,
+    pub order_id: String,
+    pub order_status: String,
+    pub order_type: String,
+    pub price: String,
+    pub side: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TradesMessageData {
+    pub amount: String,
+    pub created_ttimestamp: String,
+    pub instrument_id: i64,
+    pub instrument_name: String,
+    pub instrument_type: String,
+    pub price: String,
+    pub side: String,
+    pub trade_id: String,
+}
+

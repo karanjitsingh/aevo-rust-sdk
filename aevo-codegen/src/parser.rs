@@ -26,8 +26,20 @@ pub struct EndpointOp {
     pub method: String,
     /// The operation definition.
     pub op: Operation,
+    /// Parameters with all `$ref`s resolved to concrete definitions.
+    pub params: Vec<ResolvedParam>,
     /// Source document relative path (for diagnostics / comments).
     pub source: String,
+}
+
+/// A parameter with its `$ref` (if any) resolved to a concrete definition.
+#[derive(Debug, Clone)]
+pub struct ResolvedParam {
+    pub name: String,
+    pub location: String,
+    pub required: bool,
+    pub description: Option<String>,
+    pub schema: Option<crate::openapi::Schema>,
 }
 
 /// Extract every fenced ```json block from a markdown string.
@@ -95,9 +107,16 @@ pub fn build_unified_spec(docs: &[Doc]) -> Result<UnifiedSpec> {
                 .or_insert(schema);
         }
 
-        // Collect operations.
+        // Collect operations, resolving parameter `$ref`s against this doc's
+        // (self-contained) component parameters.
         for (path, item) in &openapi.paths {
-            collect_operations(path, item, &doc.rel_path, &mut spec.operations);
+            collect_operations(
+                path,
+                item,
+                &openapi.components.parameters,
+                &doc.rel_path,
+                &mut spec.operations,
+            );
         }
     }
 
@@ -116,15 +135,51 @@ pub fn build_unified_spec(docs: &[Doc]) -> Result<UnifiedSpec> {
     Ok(spec)
 }
 
-fn collect_operations(path: &str, item: &PathItem, source: &str, out: &mut Vec<EndpointOp>) {
+fn collect_operations(
+    path: &str,
+    item: &PathItem,
+    comp_params: &BTreeMap<String, crate::openapi::Parameter>,
+    source: &str,
+    out: &mut Vec<EndpointOp>,
+) {
     for (method, op) in item.operations() {
+        let params = resolve_params(&op.parameters, comp_params);
         out.push(EndpointOp {
             path: path.to_string(),
             method: method.to_string(),
             op: op.clone(),
+            params,
             source: source.to_string(),
         });
     }
+}
+
+/// Resolve a list of (possibly `$ref`) parameters into concrete definitions.
+/// Parameters that cannot be resolved (missing name/location) are dropped.
+fn resolve_params(
+    params: &[crate::openapi::Parameter],
+    comp_params: &BTreeMap<String, crate::openapi::Parameter>,
+) -> Vec<ResolvedParam> {
+    let mut out = Vec::new();
+    for p in params {
+        let resolved = if let Some(ref_name) = p.ref_name() {
+            comp_params.get(ref_name).cloned()
+        } else {
+            Some(p.clone())
+        };
+        let Some(r) = resolved else { continue };
+        let (Some(name), Some(location)) = (r.name.clone(), r.location.clone()) else {
+            continue;
+        };
+        out.push(ResolvedParam {
+            name,
+            location,
+            required: r.required,
+            description: r.description,
+            schema: r.schema,
+        });
+    }
+    out
 }
 
 /// A rough "richness" score so that when the same schema name appears in

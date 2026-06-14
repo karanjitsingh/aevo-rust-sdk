@@ -31,8 +31,6 @@ struct WsChannel {
     source: String,
     /// The RESPONSE example payload, if found.
     response: Option<Value>,
-    /// The REQUEST example payload, if found.
-    request: Option<Value>,
 }
 
 /// Extract every fenced ```json block from a markdown string.
@@ -86,7 +84,6 @@ fn parse_ws_docs(docs: &[Doc]) -> Vec<WsChannel> {
             name,
             source: doc.rel_path.clone(),
             response,
-            request,
         });
     }
 

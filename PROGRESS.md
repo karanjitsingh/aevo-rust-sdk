@@ -41,17 +41,79 @@ aevo-rust-sdk/            (cargo workspace)
 ## Task breakdown
 
 - [x] 1. Scaffold workspace (`aevo-codegen` + `aevo-sdk`) and this file
-- [ ] 2. Downloader: llms.txt -> all `.md` into `specs/`
-- [ ] 3. OpenAPI parser (serde model + markdown JSON extraction + merge)
-- [ ] 4. Codegen: models + async client into `aevo-sdk`
-- [ ] 5. Diff-aware generation (SHA-256 manifest)
-- [ ] 6. Wire up `main` binary (download -> diff -> parse -> generate)
-- [ ] 7. Run generator; ensure `aevo-sdk` compiles; fix issues
+- [x] 2. Downloader: llms.txt -> all `.md` into `specs/`
+- [x] 3. OpenAPI parser (serde model + markdown JSON extraction + merge)
+- [x] 4. Codegen: models + async client into `aevo-sdk`
+- [x] 5. Diff-aware generation (SHA-256 manifest)
+- [x] 6. Wire up `main` binary (download -> diff -> parse -> generate)
+- [x] 7. Run generator; ensure `aevo-sdk` compiles; fix issues
+- [x] 8. WebSocket client generation (channels + typed message structs + runtime)
+
+## Results (latest run)
+
+- **129** markdown docs downloaded into `specs/` (+ `.manifest.json`).
+- **110** REST operations generated as async methods on `AevoClient`.
+- **387** schemas generated as type aliases / enums / structs in `models.rs`.
+- **7** WebSocket channels generated (`fills`, `orders`, `index`, `trades`,
+  `book-ticker`, `orderbook-100ms`, `ticker-500ms`) with typed message structs
+  plus a `Channel` enum in `ws/messages.rs`.
+- `cargo build` (whole workspace) and `cargo test --doc -p aevo-sdk` both pass
+  with **zero warnings**.
+- Generation is **idempotent**: re-running with no doc changes skips
+  generation; `--force` re-emits byte-identical output.
+
+## Usage
+
+```bash
+# Download docs and regenerate the SDK only if the docs changed:
+cargo run -p aevo-codegen
+
+# Always regenerate (e.g. after changing the generator):
+cargo run -p aevo-codegen -- --force
+
+# Regenerate from already-downloaded specs/ without network access:
+cargo run -p aevo-codegen -- --offline --force
+
+# Verify the generated SDK compiles:
+cargo build -p aevo-sdk
+```
+
+REST example:
+
+```rust
+use aevo_sdk::AevoClient;
+
+let client = AevoClient::new();
+let server_time = client.get_time().await?;            // public
+let orderbook = client.get_orderbook("ETH-PERP".into()).await?; // query param
+
+let authed = AevoClient::builder()
+    .api_key("AEVO-KEY-VALUE")
+    .api_secret("AEVO-SECRET-VALUE")
+    .build()?;
+let account = authed.get_account().await?;             // private (auth headers sent)
+```
+
+WebSocket example:
+
+```rust
+use aevo_sdk::ws::{WsClient, Channel};
+
+let mut ws = WsClient::connect().await?;
+ws.subscribe(&[Channel::Fills.as_str().to_string()]).await?;
+while let Some(msg) = ws.next_message().await {
+    let value = msg?; // raw serde_json::Value, or use next_typed::<FillsMessage>()
+}
+```
 
 ## Notes
 
 - REST endpoint pages contain clean OpenAPI JSON and drive codegen.
-- WebSocket / guide / changelog pages are downloaded for completeness but have
-  no OpenAPI JSON block, so they are skipped during code generation.
-- The SDK uses `reqwest` (async, rustls) + `serde`. All response/request bodies
-  in Aevo are JSON.
+- WebSocket / guide / changelog pages have no OpenAPI block. WS pages are parsed
+  separately (their fenced JSON request/response examples) to infer message
+  structs; other non-spec pages are downloaded for completeness but skipped.
+- Parameter `$ref`s into `components.parameters` are resolved during parsing
+  (this is why all 110 operations are captured rather than only the ~60 with
+  inline parameters).
+- The SDK uses `reqwest` (async, rustls) + `serde`; the WS client uses
+  `tokio-tungstenite` (rustls). All request/response bodies are JSON.

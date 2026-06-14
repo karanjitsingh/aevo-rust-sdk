@@ -23,7 +23,7 @@ pub struct GeneratedRest {
 
 /// Generate the REST models and endpoints source.
 pub fn generate(spec: &UnifiedSpec) -> GeneratedRest {
-    let mut ctx = TypeRegistry::new(spec);
+    let mut ctx = TypeRegistry::new();
 
     // First, register top-level named schemas so they map to stable type names.
     for name in spec.schemas.keys() {
@@ -40,8 +40,7 @@ pub fn generate(spec: &UnifiedSpec) -> GeneratedRest {
 
 /// Tracks how schema names map to Rust type names, and accumulates the
 /// inline (anonymous) struct/enum definitions discovered while walking schemas.
-struct TypeRegistry<'a> {
-    spec: &'a UnifiedSpec,
+struct TypeRegistry {
     /// schema name (snake_case) -> Rust type name (PascalCase).
     named: BTreeMap<String, String>,
     /// Generated inline type definitions, keyed by type name for de-dup.
@@ -50,10 +49,9 @@ struct TypeRegistry<'a> {
     used_names: std::collections::BTreeSet<String>,
 }
 
-impl<'a> TypeRegistry<'a> {
-    fn new(spec: &'a UnifiedSpec) -> Self {
+impl TypeRegistry {
+    fn new() -> Self {
         Self {
-            spec,
             named: BTreeMap::new(),
             inline_defs: BTreeMap::new(),
             used_names: std::collections::BTreeSet::new(),
@@ -296,10 +294,10 @@ fn generate_one_endpoint(
     }
 
     // Parameters: path params (required, positional &str), then query params.
-    let path_params: Vec<&crate::openapi::Parameter> =
-        op.parameters.iter().filter(|p| p.location == "path").collect();
-    let query_params: Vec<&crate::openapi::Parameter> =
-        op.parameters.iter().filter(|p| p.location == "query").collect();
+    let path_params: Vec<&crate::parser::ResolvedParam> =
+        ep.params.iter().filter(|p| p.location == "path").collect();
+    let query_params: Vec<&crate::parser::ResolvedParam> =
+        ep.params.iter().filter(|p| p.location == "query").collect();
 
     // Request body type (if any JSON body).
     let body_type = request_body_type(op, ctx, &base_name);
@@ -489,7 +487,7 @@ fn register_inline_enum(schema: &Schema, ctx: &mut TypeRegistry, name_hint: &str
 }
 
 /// Rust type for a query/path parameter value (always owned for query).
-fn param_rust_type(p: &crate::openapi::Parameter) -> String {
+fn param_rust_type(p: &crate::parser::ResolvedParam) -> String {
     match p.schema.as_ref().and_then(|s| s.ty.as_deref()) {
         Some("integer") => "i64".to_string(),
         Some("number") => "f64".to_string(),
@@ -499,7 +497,7 @@ fn param_rust_type(p: &crate::openapi::Parameter) -> String {
 }
 
 /// Build the path expression, substituting path params with formatting.
-fn build_path_expr(path: &str, path_params: &[&crate::openapi::Parameter]) -> String {
+fn build_path_expr(path: &str, path_params: &[&crate::parser::ResolvedParam]) -> String {
     if path_params.is_empty() {
         return format!("\"{path}\".to_string()");
     }

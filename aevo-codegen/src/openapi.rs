@@ -17,11 +17,13 @@ pub struct OpenApi {
     pub paths: BTreeMap<String, PathItem>,
 }
 
-/// `components` object (we only care about schemas).
+/// `components` object (we care about schemas and reusable parameters).
 #[derive(Debug, Clone, Deserialize, Default)]
 pub struct Components {
     #[serde(default)]
     pub schemas: BTreeMap<String, Schema>,
+    #[serde(default)]
+    pub parameters: BTreeMap<String, Parameter>,
 }
 
 /// A path item holds one operation per HTTP method.
@@ -78,16 +80,26 @@ pub struct Operation {
     pub security: Vec<BTreeMap<String, serde_json::Value>>,
 }
 
-/// A request/query/path parameter.
-#[derive(Debug, Clone, Deserialize)]
+/// A request/query/path parameter. May be an inline definition or a `$ref`
+/// into `components.parameters`.
+#[derive(Debug, Clone, Deserialize, Default)]
 pub struct Parameter {
-    pub name: String,
+    pub name: Option<String>,
     #[serde(rename = "in")]
-    pub location: String,
+    pub location: Option<String>,
     #[serde(default)]
     pub required: bool,
     pub description: Option<String>,
     pub schema: Option<Schema>,
+    #[serde(rename = "$ref")]
+    pub reference: Option<String>,
+}
+
+impl Parameter {
+    /// The component parameter name a `$ref` points to (last path segment).
+    pub fn ref_name(&self) -> Option<&str> {
+        self.reference.as_deref().and_then(|r| r.rsplit('/').next())
+    }
 }
 
 /// Request body wrapper.

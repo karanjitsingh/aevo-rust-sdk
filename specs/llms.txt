@@ -1,0 +1,136 @@
+# Aevo Exchange Documentation
+
+## Guides
+- [Documentation](https://api-docs.aevo.xyz/docs.md): Aevo Exchange documentation
+
+## API Reference
+- [Aevo MCP Privacy Policy](https://api-docs.aevo.xyz/reference/aevo-mcp-privacy-policy.md): This Privacy Policy describes how the AEVO MCP Server handles data when you use it to interact with the [AEVO](https://app.aevo.xyz) decentralized derivatives exchange via the Model Context Protocol (MCP).
+- [Aevo MCP](https://api-docs.aevo.xyz/reference/aevo-mcp.md): Connect AI agents to the Aevo trading platform. Retrieve market data, manage accounts, and execute trades easily
+- [Prompts](https://api-docs.aevo.xyz/reference/prompts.md): Once connected and authenticated, you can use natural language to interact with AEVO. Below are example prompts across common trading workflows.
+- [Errors](https://api-docs.aevo.xyz/reference/errors.md)
+- [DELETE /api-key](https://api-docs.aevo.xyz/reference/deleteapikey.md): Removes the account's API key. This logs out the account.
+- [DELETE /orders-all](https://api-docs.aevo.xyz/reference/deleteordersall.md): Cancel all orders. Optionally, you can specify an asset and instrument type to cancel only orders for that asset/instrument type.
+- [DELETE /orders/{order_id}](https://api-docs.aevo.xyz/reference/deleteordersorderid.md): Cancels an order.
+- [DELETE /quotes](https://api-docs.aevo.xyz/reference/deletequotes.md): Cancel multiple quotes.
+- [DELETE /quotes/{quote_id}](https://api-docs.aevo.xyz/reference/deletequotesquoteid.md): Cancels an quote.
+- [DELETE /rfqs](https://api-docs.aevo.xyz/reference/deleterfqs.md): Cancel all blocks.
+- [DELETE /rfqs/{block_id}](https://api-docs.aevo.xyz/reference/deleterfqsblockid.md): Close an RFQ block
+- [DELETE /signing-key](https://api-docs.aevo.xyz/reference/deletesigningkey.md): Removes the account's signing key. This logs out the account.
+- [DELETE /twap-orders/{order_id}](https://api-docs.aevo.xyz/reference/deletetwapordersorderid.md): Cancels a TWAP order.
+- [GET /account](https://api-docs.aevo.xyz/reference/getaccount.md): Returns the account's information including API keys, signing keys and positions.
+- [GET /account/accumulated-fundings](https://api-docs.aevo.xyz/reference/getaccountaccumulatedfundings.md): Get the accumulated funding for your account's positions.
+- [GET /account/cancel-on-disconnect](https://api-docs.aevo.xyz/reference/getaccountcancelondisconnect.md): Check the Cancel on Disconnect (CoD) setting for your account.
+- [GET /account/email-address](https://api-docs.aevo.xyz/reference/getaccountemailaddress.md): Check the Email Address for your account.
+- [GET /account/email-preferences](https://api-docs.aevo.xyz/reference/getaccountemailpreferences.md): Check the email preferences for your account.
+- [GET /account/email-verified](https://api-docs.aevo.xyz/reference/getaccountemailverified.md): Check if an account's email is verified.
+- [GET /account/stats](https://api-docs.aevo.xyz/reference/getaccountstats.md): Returns the account's statistics of volume and pnl
+- [GET /account/trades/csv](https://api-docs.aevo.xyz/reference/getaccounttradescsv.md): Returns account's trade history in CSV format
+- [GET /account/transactions/csv](https://api-docs.aevo.xyz/reference/getaccounttransactionscsv.md): Returns account's transactions history in CSV format
+- [GET /account/weekly-volume](https://api-docs.aevo.xyz/reference/getaccountweeklyvolume.md): Returns the account's weekly trading volume and multiplier tier for LP NFT distribution.
+- [GET /api-key](https://api-docs.aevo.xyz/reference/getapikey.md): Returns the API key information.
+- [GET /auth](https://api-docs.aevo.xyz/reference/getauth.md): Returns true if the given headers has valid authentication
+- [GET /farm-boost](https://api-docs.aevo.xyz/reference/getfarmboost.md): Returns current farm boost, avg farm boost, and boosted volume
+- [GET /leaderboard/campaign](https://api-docs.aevo.xyz/reference/getleaderboardcampaign.md): Returns the leaderboard for a campaign by pnl in descending order
+- [GET /mmp](https://api-docs.aevo.xyz/reference/getmmp.md): Get market maker protection (MMP) setting.
+- [GET /order-history](https://api-docs.aevo.xyz/reference/getorderhistory.md): Returns order history for the account.
+- [GET /order-history/stops](https://api-docs.aevo.xyz/reference/getorderhistorystops.md): Returns stop order history for the account.
+- [GET /orders](https://api-docs.aevo.xyz/reference/getorders.md): Returns all account's orders.
+- [GET /orders/{order_id}](https://api-docs.aevo.xyz/reference/getordersorderid.md): Returns the order details.
+- [GET /otc/account](https://api-docs.aevo.xyz/reference/getotcaccount.md): Returns the account's otc details
+- [GET /portfolio](https://api-docs.aevo.xyz/reference/getportfolio.md): Returns the overall portfolio details of the account.
+- [GET /positions](https://api-docs.aevo.xyz/reference/getpositions.md): Returns the account's positions
+- [GET /proof-data](https://api-docs.aevo.xyz/reference/getproofdata.md): Returns account's proof data
+- [GET /proofs-data](https://api-docs.aevo.xyz/reference/getproofsdata.md): Returns account's proof data
+- [GET /quotes](https://api-docs.aevo.xyz/reference/getquotes.md): Returns all account's quotes.
+- [GET /referral-history](https://api-docs.aevo.xyz/reference/getreferralhistory.md): Return the account's referral history.
+- [GET /referral-rewards-history](https://api-docs.aevo.xyz/reference/getreferralrewardshistory.md): Return the account's referral rewards history.
+- [GET /referral-statistics](https://api-docs.aevo.xyz/reference/getreferralstatistics.md): Return the account's referral statistics.
+- [GET /rfqs](https://api-docs.aevo.xyz/reference/getrfqs.md): Get RFQ blocks open for trading.
+- [GET /rfqs/{block_id}/quotes](https://api-docs.aevo.xyz/reference/getrfqsblockidquotes.md): Get the quotes for a given RFQ block.
+- [GET /stake](https://api-docs.aevo.xyz/reference/getstake.md): Returns the account's weekly trading volume, multiplier tier, stake history, LP NFT history, and top staker APR.
+- [GET /strategies/account](https://api-docs.aevo.xyz/reference/getstrategiesaccount.md): Returns the account's strategy positions
+- [GET /strategies/account-history](https://api-docs.aevo.xyz/reference/getstrategiesaccounthistory.md): Returns the account's strategy equity history
+- [GET /trade-fees-campaign-stats](https://api-docs.aevo.xyz/reference/gettradefeescampaignstats.md): Return the account's trading fee statistics.
+- [GET /trade-history](https://api-docs.aevo.xyz/reference/gettradehistory.md): Return the account's trade history.
+- [GET /transaction-history](https://api-docs.aevo.xyz/reference/gettransactionhistory.md): Return the account's deposit and withdraw history.
+- [GET /twap-order-history](https://api-docs.aevo.xyz/reference/gettwaporderhistory.md): Returns TWAP child order execution history for the account.
+- [GET /twap-orders](https://api-docs.aevo.xyz/reference/gettwaporders.md): Returns all active TWAP orders for the account.
+- [GET /twap-orders/{order_id}](https://api-docs.aevo.xyz/reference/gettwapordersorderid.md): Returns a specific TWAP order by ID.
+- [POST /account/cancel-on-disconnect](https://api-docs.aevo.xyz/reference/postaccountcancelondisconnect.md): Enables or disables the Cancel on Disconnect (CoD) setting for your account. When CoD is enabled, when a websocket connection is closed, all orders placed via that connection will be cancelled.
+- [POST /account/email-address](https://api-docs.aevo.xyz/reference/postaccountemailaddress.md): Sets up an email address for a user.
+- [POST /account/email-preference](https://api-docs.aevo.xyz/reference/postaccountemailpreference.md): Sets up email preference for a user.
+- [POST /account/leverage](https://api-docs.aevo.xyz/reference/postaccountleverage.md): Set the leverage of an instrument for your account.
+- [POST /account/margin-type](https://api-docs.aevo.xyz/reference/postaccountmargintype.md): Update margin for your account's positions.
+- [POST /account/network-address](https://api-docs.aevo.xyz/reference/postaccountnetworkaddress.md): Set a non-eth network's address to the account
+- [POST /account/portfolio-margin](https://api-docs.aevo.xyz/reference/postaccountportfoliomargin.md): Enables or disables the portfolio margin on your acccount.
+- [POST /account/update-margin](https://api-docs.aevo.xyz/reference/postaccountupdatemargin.md): Update margin for your account's positions.
+- [POST /account/username](https://api-docs.aevo.xyz/reference/postaccountusername.md): Sets the username for your account.
+- [POST /api-key](https://api-docs.aevo.xyz/reference/postapikey.md): Creates a new API key.
+- [POST /batch-orders](https://api-docs.aevo.xyz/reference/postbatchorders.md): Creates a deterministic batch of GTC limit orders. All legs must share account, instrument, side, post_only, and reduce_only.
+- [POST /campaign-sign-up](https://api-docs.aevo.xyz/reference/postcampaignsignup.md): Sign up for a campaign
+- [POST /claim-referral-rewards](https://api-docs.aevo.xyz/reference/postclaimreferralrewards.md): User claims referral rewards
+- [POST /claim-trade-fees](https://api-docs.aevo.xyz/reference/postclaimtradefees.md): User claims trade fees rewards
+- [POST /farm-boost](https://api-docs.aevo.xyz/reference/postfarmboost.md): Sets random farm boost
+- [POST /mmp](https://api-docs.aevo.xyz/reference/postmmp.md): Sets market maker protection (MMP) settings.
+- [POST /orders](https://api-docs.aevo.xyz/reference/postorders.md): Creates a new order.
+- [POST /orders/{order_id}](https://api-docs.aevo.xyz/reference/postordersorderid.md): Edits an existing order.
+- [POST /otc/create-request](https://api-docs.aevo.xyz/reference/postotccreaterequest.md): Create a new otc request
+- [POST /otc/unwind](https://api-docs.aevo.xyz/reference/postotcunwind.md): Unwind an otc position
+- [POST /quotes](https://api-docs.aevo.xyz/reference/postquotes.md): Creates a new quote.
+- [POST /quotes/preview](https://api-docs.aevo.xyz/reference/postquotespreview.md): Simulate a new quote.
+- [POST /register](https://api-docs.aevo.xyz/reference/postregister.md): Registers a new account.
+- [POST /reset-mmp](https://api-docs.aevo.xyz/reference/postresetmmp.md): Reset market maker protection (MMP).
+- [POST /rfqs](https://api-docs.aevo.xyz/reference/postrfqs.md): Create a new RFQ block.
+- [POST /strategy/{strategy_address}/initiate-withdraw](https://api-docs.aevo.xyz/reference/poststrategystrategyaddressinitiatewithdraw.md): Initiate a USDC withdraw from strategy.
+- [POST /swap](https://api-docs.aevo.xyz/reference/postswap.md): Swaps collateral.
+- [POST /transfer](https://api-docs.aevo.xyz/reference/posttransfer.md): Transfer USDC between accounts.
+- [POST /twap-orders](https://api-docs.aevo.xyz/reference/posttwaporders.md): Creates a new TWAP (Time-Weighted Average Price) order.
+- [POST /withdraw](https://api-docs.aevo.xyz/reference/postwithdraw.md): Withdraws USDC from the exchange to L1 Ethereum.
+- [PUT /quotes/{quote_id}](https://api-docs.aevo.xyz/reference/putquotesquoteid.md): Edits an existing quote.
+- [GET /airdrop-incentivized-assets](https://api-docs.aevo.xyz/reference/getairdropincentivizedassets.md): Returns a list of airdrop incentivized assets
+- [GET /assets](https://api-docs.aevo.xyz/reference/getassets.md): Returns the list of active underlying assets.
+- [GET /check-referral](https://api-docs.aevo.xyz/reference/getcheckreferral.md): Check if user can be referred.
+- [GET /coingecko-statistics](https://api-docs.aevo.xyz/reference/getcoingeckostatistics.md): Returns the perpetual statistics of all assets specifically for https://www.coingecko.com/en/exchanges/aevo
+- [GET /emissions](https://api-docs.aevo.xyz/reference/getemissions.md): Returns the farm + staking emissions
+- [GET /expiries](https://api-docs.aevo.xyz/reference/getexpiries.md): Returns the expiry timestamps of derivatives of the given asset.
+- [GET /funding](https://api-docs.aevo.xyz/reference/getfunding.md): Returns the current funding rate for the instrument.
+- [GET /funding-history](https://api-docs.aevo.xyz/reference/getfundinghistory.md): Returns the funding rate history for the instrument.
+- [GET /index](https://api-docs.aevo.xyz/reference/getindex.md): Returns the current index price of the given asset.
+- [GET /index-history](https://api-docs.aevo.xyz/reference/getindexhistory.md): Returns the historical index price for a given asset.
+- [GET /instrument/{instrument_name}](https://api-docs.aevo.xyz/reference/getinstrumentinstrumentname.md): Returns the instrument information for the given instrument.
+- [GET /instrument/{instrument_name}/trade-history](https://api-docs.aevo.xyz/reference/getinstrumentinstrumentnametradehistory.md): Returns the trade history for the given instrument.
+- [GET /markets](https://api-docs.aevo.xyz/reference/getmarkets.md): Returns a list of instruments. If `asset` is not specified, the response will include all listed instruments.
+- [GET /mark-history](https://api-docs.aevo.xyz/reference/getmarkhistory.md): Returns the historical mark prices for a given instrument.
+- [GET /options-history](https://api-docs.aevo.xyz/reference/getoptionshistory.md): Returns the trade history for group of instrument.
+- [GET /orderbook](https://api-docs.aevo.xyz/reference/getorderbook.md): Returns the orderbook for a given symbol.
+- [GET /settlement-history](https://api-docs.aevo.xyz/reference/getsettlementhistory.md): Returns the historical settlement prices for a given asset.
+- [GET /statistics](https://api-docs.aevo.xyz/reference/getstatistics.md): Returns the market statistics for the given asset.
+- [GET /strategies](https://api-docs.aevo.xyz/reference/getstrategies.md): Returns the map of strategies.
+- [GET /strategy/{strategy_address}/balance-history](https://api-docs.aevo.xyz/reference/getstrategystrategyaddressbalancehistory.md): Return the strategy's balance history.
+- [GET /strategy/{strategy_address}/pnl-history](https://api-docs.aevo.xyz/reference/getstrategystrategyaddresspnlhistory.md): Return the strategy's pnl history.
+- [GET /strategy/{strategy_address}/portfolio](https://api-docs.aevo.xyz/reference/getstrategystrategyaddressportfolio.md): Returns the overall portfolio details of the strategy
+- [GET /strategy/{strategy_address}/positions](https://api-docs.aevo.xyz/reference/getstrategystrategyaddresspositions.md): Returns the strategy positions
+- [GET /strategy/{strategy_address}/trade-history](https://api-docs.aevo.xyz/reference/getstrategystrategyaddresstradehistory.md): Return the account's trade history.
+- [GET /strategy/{strategy_address}/transaction-history](https://api-docs.aevo.xyz/reference/getstrategystrategyaddresstransactionhistory.md): Return the strategy's deposit and withdraw history.
+- [GET /time](https://api-docs.aevo.xyz/reference/gettime.md): Returns the server time
+- [GET /weeth](https://api-docs.aevo.xyz/reference/getweeth.md): Returns the total weETH deposits.
+- [GET /yield-vault](https://api-docs.aevo.xyz/reference/getyieldvault.md): Returns the yield vault information for the given yield vault.
+- [POST /account/email-verified](https://api-docs.aevo.xyz/reference/postaccountemailverified.md): Verify an account's email.
+- [POST /account/unsubscribe](https://api-docs.aevo.xyz/reference/postaccountunsubscribe.md): Unsubscribe from all email preferences
+- [POST /swap/preview](https://api-docs.aevo.xyz/reference/postswappreview.md): Previews a collateral swap
+- [Cancel on Disconnect](https://api-docs.aevo.xyz/reference/cancel-on-disconnect.md)
+- [SUBCRIBE Fills](https://api-docs.aevo.xyz/reference/subcribe-fills.md): <div class="ws-method-div"><span class="APIMethod APIMethod_fixedWidth ws-sub-tag">SUB</span> <span class="ws-small-font">wss://ws.aevo.xyz</span></div>  <span class="ws-description"> Returns fills when orders are filled. </span>
+- [SUBCRIBE Orders](https://api-docs.aevo.xyz/reference/subcribe-orders.md): <div class="ws-method-div"><span class="APIMethod APIMethod_fixedWidth ws-sub-tag">SUB</span> <span class="ws-small-font">wss://ws.aevo.xyz</span></div>  <span class="ws-description"> Returns order status if any changes occur. </span>
+- [Authentication](https://api-docs.aevo.xyz/reference/websocket-authentication.md)
+- [SUBSCRIBE Book Ticker (NEW)](https://api-docs.aevo.xyz/reference/subcribe-book-ticker.md): <div class="ws-method-div"><span class="APIMethod APIMethod_fixedWidth ws-sub-tag">SUB</span> <span class="ws-small-font">wss://ws.aevo.xyz</span></div><span class="ws-description">Returns instrument ticker information when its top of the book changes and returns information such as: instrument data, bid and asks</span>
+- [SUBSCRIBE Index](https://api-docs.aevo.xyz/reference/subcribe-index.md): <div class="ws-method-div"><span class="APIMethod APIMethod_fixedWidth ws-sub-tag">SUB</span> <span class="ws-small-font">wss://ws.aevo.xyz</span></div>  <span class="ws-description"> Returns the index price. </span>
+- [SUBSCRIBE Trades](https://api-docs.aevo.xyz/reference/subcribe-trades.md): <div class="ws-method-div"><span class="APIMethod APIMethod_fixedWidth ws-sub-tag">SUB</span> <span class="ws-small-font">wss://ws.aevo.xyz</span></div>  <span class="ws-description"> Returns matched order details. </span>
+- [SUBSCRIBE Orderbook Throttled (NEW)](https://api-docs.aevo.xyz/reference/subscribe-orderbook-throttled.md): <div class="ws-method-div"><span class="APIMethod APIMethod_fixedWidth ws-sub-tag">SUB</span> <span class="ws-small-font">wss://ws.aevo.xyz</span></div><span class="ws-description"> Returns the orderbook snapshot during the initial subscription. Subsequently, returns orderbook difference when there is any created order, matched order or cancelled order. Note: The messages send are throttled by 100ms OR 500ms by default</span>
+- [SUBSCRIBE Ticker Throttled (NEW)](https://api-docs.aevo.xyz/reference/subscribe-ticker-throttled.md): <div class="ws-method-div"><span class="APIMethod APIMethod_fixedWidth ws-sub-tag">SUB</span> <span class="ws-small-font">wss://ws.aevo.xyz</span></div><span class="ws-description">Returns instrument ticker information when its top of the book changes and returns information such as: instrument data, funding rates, bid, asks and mark information.</span>
+
+## Changelog
+- [Release v1.1.10](https://api-docs.aevo.xyz/changelog/release-v1110.md)
+- [Release v1.1.9](https://api-docs.aevo.xyz/changelog/release-v119.md)
+- [Release v1.1.8](https://api-docs.aevo.xyz/changelog/release-v118.md)
+- [Release v1.1.7](https://api-docs.aevo.xyz/changelog/release-v117.md)
+- [Release v1.1.6](https://api-docs.aevo.xyz/changelog/v116.md)
