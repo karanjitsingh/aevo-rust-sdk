@@ -23,6 +23,7 @@ mod http;
 
 pub mod models;
 mod endpoints;
+pub mod ws;
 
 pub use error::Error;
 pub use http::{AevoClient, AevoClientBuilder, DEFAULT_BASE_URL, TESTNET_BASE_URL};

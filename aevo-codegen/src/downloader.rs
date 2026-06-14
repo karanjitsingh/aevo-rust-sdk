@@ -159,9 +159,10 @@ fn load_recursive(root: &Path, dir: &Path, out: &mut Vec<Doc>) -> Result<()> {
                 .replace('\\', "/");
             let contents = fs::read_to_string(&path)
                 .with_context(|| format!("reading {}", path.display()))?;
+            let url = format!("{DOCS_BASE}/{rel_path}");
             out.push(Doc {
                 rel_path,
-                url: format!("{DOCS_BASE}/{rel_path}"),
+                url,
                 contents,
             });
         }
