@@ -1,0 +1,18 @@
+[package]
+name = "aevo-codegen"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Generator that downloads Aevo API markdown docs and code-generates the aevo-sdk crate."
+
+[[bin]]
+name = "aevo-codegen"
+path = "src/main.rs"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+# Blocking HTTP client with rustls (no system OpenSSL dependency).
+ureq = { version = "2.10", features = ["tls"] }
+sha2 = "0.10"
+anyhow = "1"
